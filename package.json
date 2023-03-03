@@ -43,6 +43,8 @@
     ]
   },
   "devDependencies": {
+    "@reduxjs/toolkit": "^1.9.3",
+    "react-redux": "^8.0.5",
     "tailwindcss": "^3.2.7"
   }
 }

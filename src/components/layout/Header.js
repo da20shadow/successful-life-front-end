@@ -1,4 +1,4 @@
-import {Link, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {
     Container, AppBar, Box,
     Toolbar, IconButton, Typography,
@@ -10,39 +10,40 @@ import {useState} from "react";
 import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
 import EditIcon from '@mui/icons-material/Edit';
-import LogoutIcon from '@mui/icons-material/Logout';
-
 import Sidebar from "./Sidebar";
+import DarkModeSwitch from "../common/DarkModeSwitch";
+import AvatarMenu from "../common/AvatarMenu";
 
-const Header = () => {
-    //TODO: Remove isLogged
-    const isLogged = true;
+const Header = ({toRemoveThisOne,user,isLoggedIn,handleLogout}) => {
 
     //Sidebar menu state
     const [sidebarState, setSidebarState] = useState(false);
-   
+
     const toggleDrawer = (open) => {
         setSidebarState(open);
     };
 
-    const topPublicNavLinks = ['Home', 'FAQ', 'About', 'Login', 'Register'];
+    const handleDarkModeChange = () => {
+        // TODO: Handle dark mode change
+    };
+
+    const topPublicNavLinks = [
+        {name: 'Home',path: '/'},
+        {name: 'FAQ',path: '/faq'},
+        {name: 'About',path: '/about'},
+        {name: 'Login',path: '/login'},
+        {name: 'Register',path: '/register'}
+    ];
     const topPrivateNavLinks = [
         {name:'Dashboard', path: '/dashboard'},
         {name:'Agenda', path: '/agenda'},
         {name:'Favorites', path: '/favorites'},
     ];
-    const avatarNavLinks = [
-        {icon: <PersonIcon/> ,name:'Profile',path: '/profile'},
-        {icon: <EditIcon /> ,name:'Edit Profile',path: '/edit-profile'},
-        {icon: <SettingsIcon />, name:'Settings',path: '/settings'}
-    ];
 
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
+
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
@@ -56,131 +57,81 @@ const Header = () => {
     };
 
     const logoutHandler = () => {
-        //TODO: logout the user
+        handleLogout();
         handleCloseUserMenu();
     }
 
     return (
-        <AppBar position="static" className={'mb-8'}>
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
-                    {/*Logo*/}
-                    {isLogged
-                        ? ''
-                        : (
-                            <>
-                                <AdbIcon sx={{display: {xs: 'none', md: 'flex'}, mr: 1}}/>
-                                <Typography
-                                    variant="h6"
-                                    noWrap
-                                    component="a"
-                                    href="/"
-                                    sx={{
-                                        mr: 2,
-                                        display: {xs: 'none', md: 'flex'},
-                                        fontFamily: 'monospace',
-                                        fontWeight: 700,
-                                        letterSpacing: '.3rem',
-                                        color: 'inherit',
-                                        textDecoration: 'none',
-                                    }}
-                                >
-                                    LOGO
-                                </Typography>
-                            </>
+        <header className="flex items-center justify-between px-4 py-2 bg-white dark:bg-gray-800 border-b border-gray-700">
+
+            <div className="flex items-center">
+                {
+                    isLoggedIn
+                        ? (
+                            <button
+                                className="text-gray-700 dark:text-gray-300 p-1 ml-4 rounded-md"
+                                onClick={() => toggleDrawer(true)}
+                            >
+                                <MenuIcon />
+                            </button>
                         )
-                    }
+                        : ( <p>LOGO</p> )
+                }
+                {/* TODO: REMOVE THIS BUTTON AND THE FUNCTION PROP */}
+                <Button onClick={()=> toRemoveThisOne()} variant="contained" size="small">
+                    Login
+                </Button>
+            </div>
 
-                    {/*Sidebar nav*/}
-                    <Box sx={{flexGrow: 1, display: {xs: 'flex'}}}>
-
-                        {/*Side bar open/close sidebar menu icon*/}
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={() => toggleDrawer(true)}
-                            color="inherit"
+            <nav className="hidden ml-6 space-x-4 md:block">
+                {isLoggedIn ? (
+                    topPrivateNavLinks.map((link) => (
+                        <NavLink
+                            key={link.path}
+                            to={link.path}
+                            className={({ isActive }) =>
+                                isActive
+                                    ? 'px-3 py-2 text-gray-700 dark:text-gray-300 font-medium rounded-md bg-gray-100 dark:bg-gray-700'
+                                    : 'px-3 py-2 text-gray-700 dark:text-gray-300 font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-700'
+                            }
                         >
-                            <MenuIcon/>
-                        </IconButton>
-
-                        {/*Side bar menu*/}
-                        <Sidebar sidebarState={sidebarState}
-                                 toggleDrawer={toggleDrawer}/>
-                    </Box>
-
-                    {/*Top Nav Links*/}
-                    {
-                        isLogged
-                            ? (
-                                <Box sx={{flexGrow: 1, display: 'flex'}}>
-                                    {topPrivateNavLinks.map((navLink) => (
-                                        <Button
-                                            key={navLink.name}
-                                            onClick={handleCloseNavMenu}
-                                            sx={{my: 2, color: 'white', display: 'block'}}
-                                        >
-                                            <NavLink to={navLink.path}>{navLink.name}</NavLink>
-                                        </Button>
-                                    ))}
-                                </Box>
-                            )
-                            : (
-                                <Box sx={{flexGrow: 1, display: 'flex'}}>
-                                    {topPublicNavLinks.map((navLink) => (
-                                        <Button
-                                            key={navLink}
-                                            onClick={handleCloseNavMenu}
-                                            sx={{my: 2, color: 'white', display: 'block'}}
-                                        >
-                                            {navLink}
-                                        </Button>
-                                    ))}
-                                </Box>
-                            )
-                    }
-
-
-                    <Box sx={{flexGrow: 0}}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{mt: '45px'}}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
+                            {link.name}
+                        </NavLink>
+                    ))
+                ) : (
+                    topPublicNavLinks.map((link) => (
+                        <NavLink
+                            key={link.path}
+                            to={link.path}
+                            className={({ isActive }) =>
+                                isActive
+                                    ? 'px-3 py-2 text-gray-700 dark:text-gray-300 font-medium rounded-md bg-gray-100 dark:bg-gray-700'
+                                    : 'px-3 py-2 text-gray-700 dark:text-gray-300 font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-700'
+                            }
                         >
-                            {avatarNavLinks.map((link) => (
-                                <MenuItem key={link.name} onClick={handleCloseUserMenu}>
-                                    {link.icon}
-                                    <NavLink className={'ml-3'} to={link.path}>{link.name}</NavLink>
-                                </MenuItem>
-                            ))}
-                            <MenuItem onClick={logoutHandler}>
-                                <LogoutIcon />
-                                <div className={'ml-3'} >Sign out</div>
-                            </MenuItem>
-                        </Menu>
-                    </Box>
+                            {link.name}
+                        </NavLink>
+                    ))
+                )}
+            </nav>
 
-                </Toolbar>
-            </Container>
-        </AppBar>
+            <div className="flex items-center">
+                <DarkModeSwitch />
+                <AvatarMenu
+                    isLoggedIn={isLoggedIn}
+                    user={user}
+                    handleLogout={handleLogout}
+                />
+            </div>
+            <Sidebar
+                sidebarState={sidebarState}
+                toggleDrawer={toggleDrawer}
+                isLoggedIn={isLoggedIn}
+                topPublicNavLinks={topPublicNavLinks}
+                topPrivateNavLinks={topPrivateNavLinks}
+            />
+        </header>
+
     );
 }
 

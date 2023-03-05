@@ -65,20 +65,26 @@ export default function Sidebar({sidebarState, toggleDrawer}) {
 
     const list = () => (
         <Box
-            sx={{width: 220}}
-            role="presentation"
-            onClick={() => toggleDrawer(false)}
-            onKeyDown={() => toggleDrawer(false)}
+             sx={{width: 220}}
+             role="presentation"
+             onClick={() => toggleDrawer(false)}
+             onKeyDown={() => toggleDrawer(false)}
         >
-            <List>
+            <List className={'border-t dark:border-gray-600'}>
                 {
                     sidebarTopLinks.map(link => {
                         return (
-                            <ListItem key={link.name} disablePadding>
-                                <ListItemButton>
-                                    {link.icon}
-                                    <NavLink className={'ml-3'} to={link.path}>{link.name}</NavLink>
-                                </ListItemButton>
+                            <ListItem key={link.name} className={'text-gray-700 dark:text-gray-300 px-2'} disablePadding>
+                                <NavLink className={({isActive}) =>
+                                    isActive
+                                        ? 'my-1 w-full text-gray-700 dark:text-gray-300 font-medium rounded-md bg-gray-100 dark:bg-gray-700'
+                                        : 'my-1 w-full text-gray-700 dark:text-gray-300 font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-700'
+                                }
+                                         to={link.path}>
+                                    <ListItemButton className="flex items-center space-x-2">
+                                        {link.icon} <span>{link.name}</span>
+                                    </ListItemButton>
+                                </NavLink>
                             </ListItem>
                         )
                     })
@@ -86,17 +92,23 @@ export default function Sidebar({sidebarState, toggleDrawer}) {
             </List>
             <Divider/>
             <List>
-                <Typography variant={'h5'} className={'pl-2'}>
+                <Typography variant={'p'} className={'pl-2 text-gray-600 dark:text-gray-400'}>
                     TASKS
                 </Typography>
                 {
                     sidebarTasksLinks.map(link => {
                         return (
-                            <ListItem key={link.name} disablePadding>
-                                <ListItemButton>
-                                    {link.icon}
-                                    <NavLink className={'ml-3'} to={link.path}>{link.name}</NavLink>
-                                </ListItemButton>
+                            <ListItem key={link.name} className={'text-gray-700 dark:text-gray-300 px-2'} disablePadding>
+                                <NavLink className={({isActive}) =>
+                                    isActive
+                                        ? 'my-1 w-full text-gray-700 dark:text-gray-300 font-medium rounded-md bg-gray-100 dark:bg-gray-700'
+                                        : 'my-1 w-full text-gray-700 dark:text-gray-300 font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-700'
+                                }
+                                         to={link.path}>
+                                    <ListItemButton className="flex items-center space-x-2">
+                                        {link.icon} <span>{link.name}</span>
+                                    </ListItemButton>
+                                </NavLink>
                             </ListItem>
                         )
                     })
@@ -104,17 +116,23 @@ export default function Sidebar({sidebarState, toggleDrawer}) {
             </List>
             <Divider/>
             <List>
-                <Typography variant={'h5'} className={'pl-2'}>
+                <Typography variant={'p'} className={'pl-2 text-gray-600 dark:text-gray-400'}>
                     GOALS
                 </Typography>
                 {
                     sidebarGoalsLinks.map(link => {
                         return (
-                            <ListItem key={link.name} disablePadding>
-                                <ListItemButton>
-                                    {link.icon}
-                                    <NavLink className={'ml-3'} to={link.path}>{link.name}</NavLink>
-                                </ListItemButton>
+                            <ListItem key={link.name} className={'text-gray-700 dark:text-gray-300 px-2'} disablePadding>
+                                <NavLink className={({isActive}) =>
+                                    isActive
+                                        ? 'my-1 w-full text-gray-700 dark:text-gray-300 font-medium rounded-md bg-gray-100 dark:bg-gray-700'
+                                        : 'my-1 w-full text-gray-700 dark:text-gray-300 font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-700'
+                                }
+                                         to={link.path}>
+                                    <ListItemButton className="flex items-center space-x-2">
+                                        {link.icon} <span>{link.name}</span>
+                                    </ListItemButton>
+                                </NavLink>
                             </ListItem>
                         )
                     })
@@ -122,17 +140,23 @@ export default function Sidebar({sidebarState, toggleDrawer}) {
             </List>
             <Divider/>
             <List>
-                <Typography variant={'h5'} className={'pl-2'}>
+                <Typography variant={'p'} className={'pl-2 text-gray-600 dark:text-gray-400'}>
                     OTHER
                 </Typography>
                 {
                     sidebarOtherLinks.map(link => {
                         return (
-                            <ListItem key={link.name} disablePadding>
-                                <ListItemButton>
-                                    {link.icon}
-                                    <NavLink className={'ml-3'} to={link.path}>{link.name}</NavLink>
-                                </ListItemButton>
+                            <ListItem key={link.name} className={'text-gray-700 dark:text-gray-300 px-2'} disablePadding>
+                                <NavLink className={({isActive}) =>
+                                    isActive
+                                        ? 'my-1 w-full text-gray-700 dark:text-gray-300 font-medium rounded-md bg-gray-100 dark:bg-gray-700'
+                                        : 'my-1 w-full text-gray-700 dark:text-gray-300 font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-700'
+                                }
+                                         to={link.path}>
+                                    <ListItemButton className="flex items-center space-x-2">
+                                        {link.icon} <span>{link.name}</span>
+                                    </ListItemButton>
+                                    </NavLink>
                             </ListItem>
                         )
                     })
@@ -148,14 +172,14 @@ export default function Sidebar({sidebarState, toggleDrawer}) {
             onClose={() => toggleDrawer(false)}
         >
             <div className="absolute right-3.5">
-                <IconButton onClick={() => toggleDrawer(false)} >
+                <IconButton className={'text-gray-700 dark:text-gray-300'} onClick={() => toggleDrawer(false)}>
                     <ChevronLeftIcon/>
                 </IconButton>
             </div>
             {/*<Button onClick={()=>toggleDrawer(false)}>x</Button>*/}
-            <div className={'mt-10'}>
-            <Divider />
-            {list()}
+            <div className={'pt-10 bg-white dark:bg-gray-800'}>
+                <Divider/>
+                {list()}
             </div>
         </Drawer>
     );

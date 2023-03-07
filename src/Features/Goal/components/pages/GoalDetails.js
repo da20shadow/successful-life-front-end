@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import ProgressBar from '../common/ProgressBar';
 import {calculateDailyTargetPercentage, calculateDaysLeft} from "../../utils/helpers";
-import {useParams} from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 import {Dialog, Fab, Slide} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -32,10 +32,10 @@ const GoalDetails = () => {
         createdAt: '2023-03-05',
         deadline: '2023-04-09',
         targets: [
-            {title: 'Target zero!', completedTasks: 10, totalTasks: 10},
-            {title: 'Target one!', completedTasks: 8, totalTasks: 10},
-            {title: 'Target two!', completedTasks: 4, totalTasks: 9},
-            {title: 'Target three!', completedTasks: 0, totalTasks: 5},
+            {id:1, title: 'Target zero!', completedTasks: 10, totalTasks: 10},
+            {id:2, title: 'Target one!', completedTasks: 8, totalTasks: 10},
+            {id:3, title: 'Target two!', completedTasks: 4, totalTasks: 9},
+            {id:4, title: 'Target three!', completedTasks: 0, totalTasks: 5},
         ]
     }
 
@@ -68,8 +68,9 @@ const GoalDetails = () => {
         setOpenAddTargetModal(true);
     };
 
-    const tableBodyRow = `text-center border border-transparent dark:hover:border-gray-600 dark:hover:text-[#f0f8ff] dark:bg-[#252f3f] dark:hover:bg-gray-900 dark:odd:bg-gray-800`;
-    const tableBodyRowTD = `py-3 whitespace-nowrap border-l dark:border-gray-600 cursor-pointer`;
+    const tableBodyRow = `text-center border border-transparent hover:border-gray-300 hover:text-gray-600 bg-gray-50 odd:bg-gray-100
+     dark:hover:border-gray-600 dark:hover:text-[#f0f8ff] dark:bg-[#252f3f] dark:odd:bg-gray-800`;
+    const tableBodyRowTD = `py-2 whitespace-nowrap`;
     return (
         <>
             {/*Goal TITLE*/}
@@ -77,6 +78,7 @@ const GoalDetails = () => {
                 <span className="dark:text-orange-200">🏆 GOAL: </span>{goal.title}
             </h1>
 
+            {/*Goal Details*/}
             <div className="m-5 px-4 py-6 bg-white dark:bg-gray-800 border rounded shadow">
 
                 <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 mb-4">
@@ -101,7 +103,8 @@ const GoalDetails = () => {
                     {/*Created at, Deadline and days left*/}
                     <div>
                         <p className="mb-3 text-gray-700 dark:text-gray-300">
-                            <TodayOutlinedIcon/> Created: {format(new Date(goal.createdAt), 'MMM dd, yyyy')}</p>
+                            <TodayOutlinedIcon/> Created: {format(new Date(goal.createdAt), 'MMM dd, yyyy')}
+                        </p>
                         <p className="mb-3 text-gray-700 dark:text-gray-300">
                             <InsertInvitationOutlinedIcon/> Deadline: {format(new Date(goal.deadline), 'MMM dd, yyyy')}
                         </p>
@@ -134,15 +137,19 @@ const GoalDetails = () => {
             <section className="mx-5">
                 <table className="table-auto w-full">
                     <thead>
-                    <tr className={'bg-[#364962] dark:bg-[#364962]'}>
+                    <tr className={'bg-white dark:bg-[#364962]'}>
                         <th className="py-4 uppercase text-center">Target</th>
                         <th className="py-4 uppercase text-center">Progress</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {goal.targets.map((target, index) => (
-                        <tr key={index} className={tableBodyRow}>
-                            <td className={tableBodyRowTD + ' w-[75%]'}>{target.title}</td>
+                    {goal.targets.map((target) => (
+                        <tr key={target.id} className={tableBodyRow}>
+                            <td className={tableBodyRowTD + ' w-[75%] hover:bg-gray-200 dark:hover:bg-gray-900'}>
+                                <NavLink to={`/targets/${target.id}`}>
+                                    {target.title}
+                                </NavLink>
+                            </td>
                             <td className={tableBodyRowTD}>
                                 <div className={'w-[82%] mx-auto flex justify-between text-[12px]'}>
                                     <span>tasks</span>

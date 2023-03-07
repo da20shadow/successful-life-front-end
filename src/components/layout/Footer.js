@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 
 function Footer() {
     return (
-        <footer className="bg-white dark:bg-gray-800 border-t border-gray-700 text-gray-700 dark:text-gray-300">
+        <footer className="pb-20 bg-white dark:bg-gray-800 border-t border-gray-700 text-gray-700 dark:text-gray-300">
             <div className="max-w-[85vw] mx-auto py-10 px-4 flex flex-wrap justify-between">
                 <div>
                     {/*TODO: add logo*/}

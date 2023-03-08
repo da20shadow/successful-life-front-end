@@ -79,7 +79,7 @@ const GoalDetails = () => {
             </h1>
 
             {/*Goal Details*/}
-            <div className="m-5 px-4 py-6 bg-white dark:bg-gray-800 border rounded shadow">
+            <div className="m-1 mb-5 md:m-5 px-4 py-6 bg-white dark:bg-gray-800 border rounded shadow">
 
                 <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 mb-4">
 
@@ -134,7 +134,7 @@ const GoalDetails = () => {
             </div>
 
             {/*Targets List*/}
-            <section className="mx-5">
+            <section className="mx-1 md:mx-5">
                 <table className="table-auto w-full">
                     <thead>
                     <tr className={'bg-white dark:bg-[#364962]'}>

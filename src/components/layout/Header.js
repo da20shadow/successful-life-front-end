@@ -2,7 +2,7 @@ import {NavLink} from "react-router-dom";
 import {
     Container, AppBar, Box,
     Toolbar, IconButton, Typography,
-    Menu, Avatar, Button, Tooltip, MenuItem
+    Menu, Avatar, Button, Tooltip, MenuItem, BottomNavigation, BottomNavigationAction
 } from "@mui/material";
 import AdbIcon from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -11,7 +11,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
 import EditIcon from '@mui/icons-material/Edit';
 import Sidebar from "./Sidebar";
-import DarkModeSwitch from "../common/DarkModeSwitch";
+import DarkModeSwitch from "../ui/DarkModeSwitch";
 import AvatarMenu from "../common/AvatarMenu";
 
 const Header = ({toRemoveThisOne,user,isLoggedIn,handleLogout}) => {
@@ -36,6 +36,8 @@ const Header = ({toRemoveThisOne,user,isLoggedIn,handleLogout}) => {
     ];
     const topPrivateNavLinks = [
         {name:'Dashboard', path: '/dashboard'},
+        {name:'Ideas', path: '/ideas'},
+        {name:'Goals', path: '/goals'},
         {name:'Agenda', path: '/agenda'},
         {name:'Favorites', path: '/favorites'},
     ];
@@ -64,7 +66,7 @@ const Header = ({toRemoveThisOne,user,isLoggedIn,handleLogout}) => {
     return (
         <header className="flex items-center justify-between px-4 py-2 bg-white dark:bg-gray-800 border-b border-gray-700">
 
-            <div className="flex items-center">
+            <div className="flex flex-wrap items-center">
                 {
                     isLoggedIn
                         ? (
@@ -81,6 +83,21 @@ const Header = ({toRemoveThisOne,user,isLoggedIn,handleLogout}) => {
                 <Button onClick={()=> toRemoveThisOne()} variant="contained" size="small">
                     Login
                 </Button>
+                <NavLink to={'/ideas/goal/9'}
+                    className="text-gray-700 dark:text-gray-300 p-1 ml-4 rounded-md"
+                >
+                    Idea Goal ID 9
+                </NavLink>
+                <NavLink to={'/ideas/goal/19'}
+                    className="text-gray-700 dark:text-gray-300 p-1 ml-4 rounded-md"
+                >
+                    Idea Goal ID 19
+                </NavLink>
+                <NavLink to={'/goals/19'}
+                    className="text-gray-700 dark:text-gray-300 p-1 ml-4 rounded-md"
+                >
+                    Goal ID 19
+                </NavLink>
             </div>
 
             <nav className="hidden ml-6 space-x-4 md:block">
@@ -126,12 +143,8 @@ const Header = ({toRemoveThisOne,user,isLoggedIn,handleLogout}) => {
             <Sidebar
                 sidebarState={sidebarState}
                 toggleDrawer={toggleDrawer}
-                isLoggedIn={isLoggedIn}
-                topPublicNavLinks={topPublicNavLinks}
-                topPrivateNavLinks={topPrivateNavLinks}
             />
         </header>
-
     );
 }
 

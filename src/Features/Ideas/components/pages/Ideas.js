@@ -176,7 +176,7 @@ function Ideas() {
                 <div className="flex justify-center items-center mb-8">
                     <div className="relative w-full md:w-1/2">
                         <input
-                            type="text"
+                            type="search"
                             placeholder="Search by keyword or tag"
                             className="dark:bg-gray-300 px-4 py-2 border rounded-md w-full shadow"
                             value={searchTerm}

@@ -23,7 +23,7 @@ const Header = ({toRemoveThisOne,user,isLoggedIn,handleLogout}) => {
         setSidebarState(open);
     };
 
-    const handleDarkModeChange = () => {
+    const handleDarkModeChange = (isDarkMode) => {
         // TODO: Handle dark mode change
     };
 
@@ -83,21 +83,6 @@ const Header = ({toRemoveThisOne,user,isLoggedIn,handleLogout}) => {
                 <Button onClick={()=> toRemoveThisOne()} variant="contained" size="small">
                     Login
                 </Button>
-                <NavLink to={'/ideas/goal/9'}
-                    className="text-gray-700 dark:text-gray-300 p-1 ml-4 rounded-md"
-                >
-                    Idea Goal ID 9
-                </NavLink>
-                <NavLink to={'/ideas/goal/19'}
-                    className="text-gray-700 dark:text-gray-300 p-1 ml-4 rounded-md"
-                >
-                    Idea Goal ID 19
-                </NavLink>
-                <NavLink to={'/goals/19'}
-                    className="text-gray-700 dark:text-gray-300 p-1 ml-4 rounded-md"
-                >
-                    Goal ID 19
-                </NavLink>
             </div>
 
             <nav className="hidden ml-6 space-x-4 md:block">

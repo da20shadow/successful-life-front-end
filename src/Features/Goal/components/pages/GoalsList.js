@@ -102,16 +102,15 @@ const GoalsList = () => {
                     return (
                         <NavLink key={goal.id} to={`/goals/${goal.id}`}>
                             <div className={goalCardStyle}>
-                                <h3 className="text-lg font-bold mb-2">{goal.title}</h3>
-                                <p className="text-gray-500 text-sm mb-2"><TodayOutlinedIcon/> Created: {format(new Date(goal.createdAt), 'MMM dd, yyyy')}</p>
-                                <p className="text-gray-500 text-sm mb-2"><InsertInvitationOutlinedIcon/> Deadline: {format(new Date(goal.deadline), 'MMM dd, yyyy')}</p>
-                                <p className="text-gray-500 text-sm"><WatchLaterOutlinedIcon/> Days Left: {daysLeft}</p>
-
-                                <div className="p-12 flex items-center justify-center">
+                                <div className="px-12 py-5 flex items-center justify-center">
                                     <CircularProgressbar value={progress} text={`${progress}%`}
                                                          strokeWidth={6}
                                                          styles={{path: {stroke: `hsl(${progress}, 100%, 50%)`}}}/>
                                 </div>
+                                <h3 className="text-lg text-center font-bold mb-2">{goal.title}</h3>
+                                <p className="text-gray-500 text-sm mb-2"><InsertInvitationOutlinedIcon/> Deadline: {format(new Date(goal.deadline), 'MMM dd, yyyy')}</p>
+                                <p className="text-gray-500 text-sm mb-2"><WatchLaterOutlinedIcon/> Days Left: {daysLeft}</p>
+
                                 <p className="mb-3 text-gray-500 text-sm">
                                     <GpsFixedIcon/> {goal.completedTargets} of {goal.totalTargets} targets completed</p>
                                 {createGoalCategoryLabel(goal.category)}

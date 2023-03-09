@@ -15,6 +15,7 @@ const AddIdeaForm = ({goalId,handleClose}) => {
     const [titleError, setTitleError] = useState(false);
     const [descriptionError, setDescriptionError] = useState(false);
 
+
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
         setTitleError(false);
@@ -70,7 +71,7 @@ const AddIdeaForm = ({goalId,handleClose}) => {
     }
 
     return (
-        <form onSubmit={addNewIdeaHandler} className={'p-3 md:p-10 bg-gray-100 dark:bg-gray-800'}>
+        <form onSubmit={addNewIdeaHandler} className={'p-3 md:p-10'}>
 
             {goalId
                 ? (
@@ -85,6 +86,7 @@ const AddIdeaForm = ({goalId,handleClose}) => {
 
             <div className="mb-4">
                 <TextField
+                    inputProps={{className: 'text-gray-700 dark:text-gray-300'}}
                     fullWidth
                     label="Title"
                     variant="outlined"

@@ -62,12 +62,6 @@ const GoalDetails = () => {
         ? 'text-rose-500' : progressPercentage <= 66 && progressPercentage > 33
             ? 'text-orange-500' : 'text-green-500';
 
-
-    //Open modal for adding new goal
-    const addNewTarget = () => {
-        setOpenAddTargetModal(true);
-    };
-
     const tableBodyRow = `text-center border border-transparent hover:border-gray-300 hover:text-gray-600 bg-gray-50 odd:bg-gray-100
      dark:hover:border-gray-600 dark:hover:text-[#f0f8ff] dark:bg-[#252f3f] dark:odd:bg-gray-800`;
     const tableBodyRowTD = `py-2 whitespace-nowrap`;
@@ -168,7 +162,7 @@ const GoalDetails = () => {
 
             {/*Add Target Button*/}
             <Fab sx={{position: 'fixed', bottom: 65, right: 16}}
-                 onClick={() => addNewTarget()}
+                 onClick={() => setOpenAddTargetModal(true)}
                  color="primary" aria-label="add">
                 <AddIcon/>
             </Fab>

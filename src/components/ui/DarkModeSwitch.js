@@ -1,26 +1,28 @@
 import { useState, useEffect } from 'react';
-import {FormControlLabel, Switch} from "@mui/material";
+import {Switch} from "@mui/material";
 import { styled } from '@mui/material/styles';
+import {useThemeModeStateContext} from "../../context/DarkLightModeContext";
 
 
 function DarkModeSwitch() {
-    const [isDarkMode, setIsDarkMode] = useState(() => {
-        const theme = window.localStorage.getItem('theme');
-        return theme === 'dark';
-    });
+
+    const {mode,changeThemeMode} = useThemeModeStateContext();
+
+    const [isDarkMode, setIsDarkMode] = useState(mode === 'dark');
 
     useEffect(() => {
         if (isDarkMode) {
             document.body.classList.add('dark');
-            window.localStorage.setItem('theme', 'dark');
+            // window.localStorage.setItem('theme', 'dark');
         } else {
             document.body.classList.remove('dark');
-            window.localStorage.setItem('theme', 'light');
+            // window.localStorage.setItem('theme', 'light');
         }
     }, [isDarkMode]);
 
     const handleToggle = () => {
         setIsDarkMode(!isDarkMode);
+        changeThemeMode(mode === 'light' ? 'dark' : 'light');
     };
 
     const MaterialUISwitch = styled(Switch)(({ theme }) => ({

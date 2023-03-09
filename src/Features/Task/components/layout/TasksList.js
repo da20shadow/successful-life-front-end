@@ -9,8 +9,8 @@ function TasksList({tasks}){
                 <th className="py-4 uppercase text-center w-[45%]">Task Title</th>
                 <th className="py-4 uppercase text-center w-[15%]">Status</th>
                 <th className="py-4 uppercase text-center w-[10%]">Priority</th>
-                <th className="py-4 uppercase text-center w-[15%]">Start Date</th>
-                <th className="py-4 uppercase text-center w-[15%]">End Date</th>
+                <th className="py-4 uppercase text-center hidden md:table-cell w-[15%]">Start Date</th>
+                <th className="py-4 uppercase text-center hidden md:table-cell w-[15%]">End Date</th>
             </tr>
             </thead>
             <tbody>

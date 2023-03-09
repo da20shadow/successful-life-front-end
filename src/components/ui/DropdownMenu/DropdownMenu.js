@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 
-function DropdownMenu({value,options,onChange}){
+function DropdownMenu({value,options,onChange,isLeftPosition}){
 
     const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
 
@@ -29,7 +29,7 @@ function DropdownMenu({value,options,onChange}){
     return (
         <div className="relative" ref={dropdownRef}>
             <button
-                className="block w-full py-2 text-center px-3 rounded-lg focus:outline-none focus:shadow-outline-purple"
+                className="block w-full p-2 text-center rounded-lg focus:outline-none focus:shadow-outline-purple"
                 onClick={() => setStatusDropdownOpen(!statusDropdownOpen)}
             >
                 {value}
@@ -38,13 +38,13 @@ function DropdownMenu({value,options,onChange}){
             {
                 statusDropdownOpen
                     ? (
-                    <div className={`absolute z-20 mt-1 rounded-lg ${statusDropdownOpen ? '' : 'hidden'}`}>
-                        <div className="px-2 py-1 w-fit border bg-white dark:bg-gray-900 rounded-lg shadow">
+                    <div className={`absolute ${isLeftPosition ? 'left-1' : 'right-1'} z-20 mt-1 rounded-lg ${statusDropdownOpen ? '' : 'hidden'}`}>
+                        <div className={`px-2 py-1 w-fit border bg-white dark:bg-gray-900 rounded-lg shadow`}>
                             {options.map((option, index) => (
                                 <button
                                     key={index}
-                                    className={`my-1 block w-full text-left py-2 px-3 dark:text-gray-400 dark:hover:text-gray-300 rounded-lg dark:hover:bg-gray-800 hover:bg-gray-200 hover:text-white ${
-                                        value === option.name ? 'bg-gray-200 dark:bg-gray-800 text-white' : ''
+                                    className={`my-1 block w-full whitespace-nowrap text-left py-2 px-3 dark:text-gray-400 dark:hover:text-gray-300 rounded-lg dark:hover:bg-gray-800 hover:bg-gray-200 hover:text-gray-800 ${
+                                        value === option.name ? 'bg-gray-200 dark:bg-gray-800 dark:text-white text-gray-700' : ''
                                     }`}
                                     onClick={() => menuChanged(option.name)}
                                 >

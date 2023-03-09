@@ -93,12 +93,10 @@ function Ideas() {
     useEffect(() => {
         if (goalId) {
             //GET all goal ideas by goal id
-            console.log('Goal ID: ', goalId)
             setGoalTitle('Goal Title ID ' + goalId)
         } else {
             //GET all ideas
             //TODO: Get all tags from all ideas on the current user
-            console.log('No Goal ID!')
         }
     }, [goalId]);
 

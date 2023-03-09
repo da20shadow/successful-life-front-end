@@ -6,14 +6,17 @@ import {BrowserRouter} from "react-router-dom";
 import App from './App';
 import {default as userStore} from './Features/User/Store/store';
 import './assets/styles/style.css';
+import {ThemeModeContextProvider} from "./context/DarkLightModeContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <Provider store={userStore}>
-            <BrowserRouter>
-                <App/>
-            </BrowserRouter>
+            <ThemeModeContextProvider>
+                <BrowserRouter>
+                    <App/>
+                </BrowserRouter>
+            </ThemeModeContextProvider>
         </Provider>
     </React.StrictMode>
 );

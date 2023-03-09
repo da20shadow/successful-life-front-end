@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Routes, Route, Navigate, useParams, NavLink, useNavigate} from 'react-router-dom';
 
@@ -7,11 +7,11 @@ import {login, logout} from "./Features/User/Store/userReducer";
 import Dashboard from "./Features/User/components";
 import {
     AppBar, BottomNavigation, BottomNavigationAction,
-    Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
+    Button, createTheme, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
     IconButton, ListItem, ListItemText, Slide,
     SpeedDial,
     SpeedDialAction,
-    SpeedDialIcon,
+    SpeedDialIcon, ThemeProvider,
     Toolbar,
     Typography
 } from "@mui/material";
@@ -28,15 +28,69 @@ import ViewAgendaIcon from "@mui/icons-material/ViewAgenda";
 import GradeIcon from "@mui/icons-material/Grade";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import {TargetDetails} from "./Features/Target/components";
+import {TaskDetails, Tasks} from "./Features/Task/components";
+import {useThemeModeStateContext} from "./context/DarkLightModeContext";
 
 function App() {
 
     const navigate = useNavigate();
-
+    const {mode} = useThemeModeStateContext();
+    const [theme, setTheme] = useState(createTheme({
+        palette: {
+            mode: mode === 'dark' ? 'dark' : 'light',
+            primary: {
+                light: '#e3f2fd',
+                main: '#90caf9',
+                dark: '#42a5f5',
+                contrastText: '#000',
+            },
+            secondary: {
+                light: '#f3e5f5',
+                main: '#ce93d8',
+                dark: '#ab47bc',
+                contrastText: '#000',
+            },
+        },
+    }));
     const [mobileNav, setMobileNav] = useState(0);
 
     const user = useSelector(state => state.user);
     const dispatch = useDispatch();
+
+    const mobileNavRef = useRef(null);
+
+    useEffect(()=>{
+        console.log('Mode Changed',mode)
+        setTheme(createTheme({
+            palette: {
+                mode: mode,
+                primary: {
+                    light: '#e3f2fd',
+                    main: '#90caf9',
+                    dark: '#42a5f5',
+                    contrastText: '#000',
+                },
+                secondary: {
+                    light: '#f3e5f5',
+                    main: '#ce93d8',
+                    dark: '#ab47bc',
+                    contrastText: '#000',
+                },
+            },
+        }))
+    },[mode])
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (mobileNavRef.current && !mobileNavRef.current.contains(event.target)) {
+                setMobileNav(0);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [mobileNavRef]);
 
     const handleLogin = () => {
         dispatch(login())
@@ -48,18 +102,17 @@ function App() {
 
     const [open, setOpen] = useState(false);
 
-
-
     const handleClose = () => {
         setOpen(false);
     };
 
-
     return (
-        <>
+        <ThemeProvider theme={theme}>
 
             <main className={'bg-[#F2F7FF] dark:bg-[#0b1727] text-[#5e6e82] dark:text-[#9da9bb] h-100 relative'}>
-                <Header toRemoveThisOne={handleLogin} user={user} isLoggedIn={user.isLoggedIn}
+                <Header toRemoveThisOne={handleLogin}
+                        user={user}
+                        isLoggedIn={user.isLoggedIn}
                         handleLogout={handleLogout}/>
 
                 <div className={'my-10'}>
@@ -79,6 +132,14 @@ function App() {
                                element={user.isLoggedIn ? <GoalsList/> : <Navigate to={'/login'} replace={true}/>}/>
                         <Route path={'/targets/:targetId'}
                                element={user.isLoggedIn ? <TargetDetails/> : <Navigate to={'/login'} replace={true}/>}/>
+                        <Route path={'/urgent-tasks'}
+                               element={user.isLoggedIn ? <Tasks type={'urgent'}/> : <Navigate to={'/login'} replace={true}/>}/>
+                        <Route path={'/important-tasks'}
+                               element={user.isLoggedIn ? <Tasks type={'important'}/> : <Navigate to={'/login'} replace={true}/>}/>
+                        <Route path={'/tasks/:taskId'}
+                               element={user.isLoggedIn ? <TaskDetails/> : <Navigate to={'/login'} replace={true}/>}/>
+                        <Route exact path={'/tasks'}
+                               element={user.isLoggedIn ? <Tasks/> : <Navigate to={'/login'} replace={true}/>}/>
                         <Route path={'*'} element={<NotFound isLoggedIn={user.isLoggedIn}/>}/>
 
                     </Routes>
@@ -87,7 +148,7 @@ function App() {
 
                 {user.isLoggedIn ? (
                     <section className={'md:hidden fixed bottom-0 w-full'}>
-                        <BottomNavigation
+                        <BottomNavigation ref={mobileNavRef}
                             showLabels
                             value={mobileNav}
                             onChange={(event, newValue) => {
@@ -96,10 +157,12 @@ function App() {
                             }}
                             className={'bg-gray-100 dark:bg-gray-900'}
                         >
-                            <BottomNavigationAction className={'text-gray-700 dark:text-gray-300'} label="Agenda"
-                                                    icon={<ViewAgendaIcon/>} value="/agenda"/>
                             <BottomNavigationAction className={'text-gray-700 dark:text-gray-300'} label="Favorites"
                                                     icon={<GradeIcon/>} value="/favorites"/>
+                            <BottomNavigationAction className={'text-gray-700 dark:text-gray-300'} label="Goals"
+                                                    icon={<SportsScoreIcon/>} value="/goals"/>
+                            <BottomNavigationAction className={'text-gray-700 dark:text-gray-300'} label="Agenda"
+                                                    icon={<ViewAgendaIcon/>} value="/agenda"/>
                             <BottomNavigationAction className={'text-gray-700 dark:text-gray-300'} label="Dashboard"
                                                     icon={<DashboardIcon/>} value="/dashboard"/>
                         </BottomNavigation>
@@ -109,7 +172,7 @@ function App() {
 
             </main>
 
-        </>
+        </ThemeProvider>
     );
 }
 

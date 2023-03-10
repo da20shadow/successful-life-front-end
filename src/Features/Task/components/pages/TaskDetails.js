@@ -53,7 +53,8 @@ export default function TaskDetails() {
         subtasks: [
             {id: 1, title: 'Subtask title one!', completed: false},
             {id: 2, title: 'Subtask title Two!', completed: false},
-            {id: 3, title: 'Subtask title Three!', completed: true},
+            {id: 3, title: 'Subtask title Three!', completed: false},
+            {id: 4, title: 'Subtask title Four!', completed: false},
         ]
     })
 
@@ -168,12 +169,22 @@ export default function TaskDetails() {
     }
 
     const markSubtaskAsCompleted = (subtaskId) => {
-        setTask(oldState => ({
-            ...oldState,
-            subtasks: task.subtasks.map(s => {
-                return (s.id === subtaskId ? {...s, completed: !s.completed} : s)
-            })
-        }));
+        const updatedSubtask = task.subtasks.find(s => s.id === subtaskId);
+        if (!updatedSubtask.completed) {
+            updatedSubtask.completed = !updatedSubtask.completed;
+            let updatedSubtasksList = task.subtasks.filter(s => s.id !== subtaskId);
+            setTask(oldState => ({
+                ...oldState,
+                subtasks: [...updatedSubtasksList,updatedSubtask]
+            }));
+        }else {
+            setTask(oldState => ({
+                ...oldState,
+                subtasks: task.subtasks.map(s => {
+                    return (s.id === subtaskId ? {...s, completed: !s.completed} : s)
+                })
+            }));
+        }
     }
 
     const addSubtask = (e) => {
@@ -210,8 +221,8 @@ export default function TaskDetails() {
         return (priority.icon);
     }
 
-    let completedSubtasks = task.subtasks.filter((task) => {
-        return task.completed === true;
+    let completedSubtasks = task.subtasks.filter((subtask) => {
+        return subtask.completed === true;
     }).length;
     const progressPercentage = Math.floor((completedSubtasks / task.subtasks.length) * 100);
 
@@ -364,7 +375,9 @@ export default function TaskDetails() {
                                     {/*<h2 className={'text-2xl font-bold text-center text-rose-900 bg-rose-50 dark:bg-rose-100'}>DELETE Idea</h2>*/}
 
                                     <DialogContentText sx={{textAlign: 'center'}} id="alert-dialog-slide-description">
-                                        Are you sure you want to delete the subtask:
+                                        <span className={'text-gray-700'}>
+                                            Are you sure you want to delete the subtask:
+                                        </span>
                                         <span className="italic text-gray-700"> "{s.title}" </span>?
                                     </DialogContentText>
 

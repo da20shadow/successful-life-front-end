@@ -1,6 +1,5 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {Button, Chip, TextField} from '@mui/material';
-import {useParams} from "react-router-dom";
 
 const AddIdeaForm = ({goalId,handleClose}) => {
 
@@ -15,6 +14,7 @@ const AddIdeaForm = ({goalId,handleClose}) => {
     const [titleError, setTitleError] = useState(false);
     const [descriptionError, setDescriptionError] = useState(false);
 
+    const [inputTag, setInputTag] = useState('');
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -26,18 +26,38 @@ const AddIdeaForm = ({goalId,handleClose}) => {
         setDescriptionError(false);
     };
 
-    const handleAddTag = (event) => {
+    const trimAndRemoveSpaces = (event) =>{
+        const tag = event.target.value.trim()
+            .toLowerCase()
+            .replace(/[^a-zA-Z]/g, '')
+            .replace(/\s/g, '');
+        event.currentTarget.value = tag;
+        setInputTag(tag);
+    }
+
+    const handleAddTag = (event,clicked) => {
+
+        if (clicked) {
+            if (inputTag !== '' && !tags.includes(inputTag)) {
+                setTags([...tags, inputTag]);
+                setInputTag('');
+            }
+            return;
+        }
+
+        const newTag = event.target.value.trim().toLowerCase().replace(/[^a-zA-Z]/g, '').replace(/\s/g, '');
+
         if (event.key === 'Enter') {
-            const newTag = event.target.value.trim().toLowerCase();
             if (newTag !== '' && !tags.includes(newTag)) {
                 setTags([...tags, newTag]);
+                setInputTag('');
                 event.target.value = '';
             }
         } else if (event.key === ' ' && event.target.value.trim() !== '') {
             event.preventDefault();
-            const newTag = event.target.value.trim().toLowerCase();
             if (newTag !== '' && !tags.includes(newTag)) {
                 setTags([...tags, newTag]);
+                setInputTag('');
                 event.target.value = '';
             }
         }
@@ -50,6 +70,17 @@ const AddIdeaForm = ({goalId,handleClose}) => {
 
     const addNewIdeaHandler = (e) => {
         e.preventDefault();
+
+        if (inputTag) {
+            if (inputTag !== '' && !tags.includes(inputTag)) {
+                setTags([...tags, inputTag]);
+                setInputTag('');
+                e.currentTarget.tag.vlaue = '';
+                e.currentTarget.vlaue = '';
+            }
+            return;
+        }
+
         //Trim and remove double spaces in the title and description
         setTitle(title.trim().replace(/\s+/g, ' '));
         setDescription(description.trim().replace(/\s+/g, ' '));
@@ -119,14 +150,20 @@ const AddIdeaForm = ({goalId,handleClose}) => {
                     />
                 ))}
             </div>
-            <div className="mb-4">
+            <div className="mb-4 flex gap-2 md:block">
                 <TextField
                     fullWidth
                     label="Tags"
+                    name={'tag'}
+                    value={inputTag}
                     variant="outlined"
+                    onChange={trimAndRemoveSpaces}
                     onKeyDown={handleAddTag}
                     InputProps={{ style: { textTransform: 'lowercase' } }}
                 />
+                <Button sx={{display:{sm: 'none'}, whiteSpace: 'nowrap'}}
+                        variant="outlined"
+                        onClick={(e)=>handleAddTag(e,true)} >Add Tag</Button>
             </div>
             <div className={'flex gap-5'}>
                 <Button variant="contained" color="primary" type="submit">

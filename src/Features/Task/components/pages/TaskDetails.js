@@ -366,24 +366,22 @@ export default function TaskDetails() {
                                 aria-describedby="alert-dialog-slide-description"
                             >
 
-                                <DialogTitle className={'text-center text-rose-900 bg-rose-50 dark:bg-rose-100'} >
+                                <DialogTitle className={'text-center text-rose-900 dark:text-rose-300'} >
                                     <WarningAmberIcon sx={{fontSize: '65px'}} />
                                 </DialogTitle>
 
-                                <DialogContent className={'bg-rose-50 dark:bg-rose-100'}>
+                                <DialogContent>
 
                                     {/*<h2 className={'text-2xl font-bold text-center text-rose-900 bg-rose-50 dark:bg-rose-100'}>DELETE Idea</h2>*/}
 
                                     <DialogContentText sx={{textAlign: 'center'}} id="alert-dialog-slide-description">
-                                        <span className={'text-gray-700'}>
                                             Are you sure you want to delete the subtask:
-                                        </span>
-                                        <span className="italic text-gray-700"> "{s.title}" </span>?
+                                            <strong className="italic"> "{s.title}" </strong>?
                                     </DialogContentText>
 
                                 </DialogContent>
 
-                                <DialogActions className={'bg-rose-50 dark:bg-rose-100'}>
+                                <DialogActions>
                                     <Button onClick={()=>setOpenDeleteModal(false)}>Cancel</Button>
                                     <Button color="error" onClick={()=>deleteSubtask(s.id)}>DELETE</Button>
                                 </DialogActions>

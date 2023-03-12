@@ -2,6 +2,12 @@ import {ENV} from "../constants";
 
 const request = async (path, data, method) => {
     const options = {method, headers: {"Content-type": "Application/JSON"},credentials: 'include'};
+
+    const token = localStorage.getItem('token');
+    if (token) {
+        options.headers['X-Auth-Token'] = JSON.parse(token);
+    }
+
     if (data) {
         options.body = JSON.stringify(data);
     }
